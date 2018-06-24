@@ -5,6 +5,7 @@ import TextHeadings from './elements/Textheadings'
 import Icons from './elements/Icons'
 import Exam from './elements/Exam'
 import QuestionTypeButtonGroupChoose from './elements/QuestionTypeButtonGroupChoose';
+import QuestionTypePicker from './elements/QuestionTypePicker';
 
 export default class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
         <StatusBar barStyle="light-content"/>
           <FixedHeader/>
         <QuestionTypeButtonGroupChoose/>
+        <QuestionTypePicker/>
         <TextHeadings/>
         <Icons/>
         <Exam/>
@@ -21,11 +23,11 @@ export default class App extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
