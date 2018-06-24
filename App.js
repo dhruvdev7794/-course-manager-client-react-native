@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import FixedHeader from './elements/FixedHeader'
 import TextHeadings from './elements/Textheadings'
 import Icons from './elements/Icons'
+import Exam from './elements/Exam'
 
 export default class App extends React.Component {
   render() {
@@ -12,6 +13,7 @@ export default class App extends React.Component {
           <FixedHeader/>
         <TextHeadings/>
         <Icons/>
+        <Exam/>
       </View>
     );
   }
