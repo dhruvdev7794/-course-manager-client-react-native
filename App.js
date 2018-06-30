@@ -12,6 +12,7 @@ import {Text} from 'react-native-elements';
 import ScreenX from './elements/ScreenX';
 import CourseList from './components/CourseList'
 import ModuleList from './components/ModuleList';
+import LessonList from './components/LessonList'
 
 class Home extends React.Component{
 
@@ -79,6 +80,7 @@ const App = createStackNavigator({
     Home,
     CourseList,
     ModuleList,
+    LessonList,
     ScreenA,
     ScreenB,
     ScreenX

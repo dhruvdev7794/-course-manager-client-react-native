@@ -29,6 +29,9 @@ class ModuleList extends React.Component{
                 <Text h2>Module List</Text>
                 {this.state.modules.map((module, index) => (
                     <ListItem
+                        onPress={() => this.props.navigation
+                            .navigate("LessonList", {courseId:
+                                this.state.courseId, moduleId: module.id})}
                         key={index}
                         title={module.title}
                     />
