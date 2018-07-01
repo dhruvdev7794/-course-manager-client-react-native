@@ -3,10 +3,12 @@ import {ScrollView, View, Button} from 'react-native';
 import {Text, FormLabel, FormValidationMessage, FormInput} from 'react-native-elements';
 import AssignmentServices from '../services/AssignmentServices'
 
+let self;
 class AssignmentWidget extends React.Component{
     static navigationOption={title: 'Assignment'}
     constructor(props){
         super(props);
+        this.assignmentService = AssignmentServices.instance
         this.state={
             assignmentId: 1,
             lessonId: 1,
@@ -18,7 +20,8 @@ class AssignmentWidget extends React.Component{
                 widgetType: 'Assignment'
             }
         };
-        this.assignmentService = AssignmentServices.instance
+        self = this;
+
 
     }
     componentDidMount(){
@@ -31,9 +34,9 @@ class AssignmentWidget extends React.Component{
             assignment ={
                 text: (widget.text != null || widget.text != undefined) ? widget.text : '',
                 description: (widget.description != null || widget.description != undefined) ? widget.description : '',
-                points: (widget.points != null || widget.points != undefined) ? widget.points : '',
+                points: (widget.points != null || widget.points != undefined) ? widget.points : 0,
                 widgetType: 'Assignment'
-            }
+            };
             this.setState({
                 assignment: assignment
             })
@@ -87,6 +90,30 @@ class AssignmentWidget extends React.Component{
         console.log("hi");
     }
 
+    createOrUpdateAssignment(){
+        console.log(this.assignmentService);
+        self.assignmentService.findAssignmentById(this.state.assignmentId)
+            .then(function (response) {
+                response = response.json();
+                if(response!=null){
+                    this.createAssgn(this.state.lessonId, this.state.assignment);
+                }
+                else{
+                    this.updateAssgn(this.state.assignmentId, this.state.assignment);
+                }
+            })
+    }
+
+    createAssgn(lessonId, assignment){
+        this.assignmentService.createAssignment(lessonId, assignment)
+            .then(this.props.navigation.goBack())
+    }
+
+    updateAssgn(assignmentId, assignment){
+        this.assignmentService.updateAssignment(assignmentId, assignment)
+            .then(this.props.navigation.goBack())
+    }
+
     render(){
         return(
             <ScrollView>
@@ -127,9 +154,11 @@ class AssignmentWidget extends React.Component{
                     <Text h5>Submit Link</Text>
                     <FormInput placeholder="Enter Link"/>
                     <Button title="Submit"
-                            onPress={() => this.buttonPress()}/>
+                            onPress={() => this.createOrUpdateAssignment()}/>
                     <Button title="Cancel"
-                            onPress={() => this.buttonPress()}/>
+                            onPress={() =>this.props
+                                .navigation
+                                .goBack()}/>
 
                 </View>
 

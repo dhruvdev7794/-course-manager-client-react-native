@@ -10,7 +10,7 @@ class AssignmentServices{
 
     static get instance() {
         if (!this[_singleton])
-            this[_singleton] = new CourseService(_singleton);
+            this[_singleton] = new AssignmentServices(_singleton);
         return this[_singleton]
     }
 
@@ -20,7 +20,7 @@ class AssignmentServices{
         })
     }
 
-    getAssignmentById(assignmentId){
+    findAssignmentById(assignmentId){
         return fetch(ASSIGNMENT_API_URL+'/'+assignmentId).then(function (response){
             return response.json();
         })
@@ -56,3 +56,4 @@ class AssignmentServices{
 
 
 }
+export default AssignmentServices;

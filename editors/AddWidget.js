@@ -2,6 +2,7 @@ import React from 'react'
 import {ScrollView} from 'react-native'
 import {Text, ButtonGroup} from 'react-native-elements'
 import AssignmentWidget from "../exam_widgets/AssignmentWidget";
+import ExamWidget from "../exam_widgets/ExamWidget";
 
 class AddWidget extends React.Component{
     static navigationOptions = {title: 'Add Widget'};
@@ -33,8 +34,8 @@ class AddWidget extends React.Component{
                     selectedIndex={this.state.selected}
                     buttons={this.state.widgetTypes}
                 />
-                <Text>{this.state.selected}</Text>
                 {this.state.selected===1 && <AssignmentWidget lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
+                {this.state.selected===0 && <ExamWidget lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
             </ScrollView>
         )
     }

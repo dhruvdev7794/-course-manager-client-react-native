@@ -3,6 +3,7 @@ import {View, Alert} from 'react-native'
 import {Text, ListItem} from 'react-native-elements'
 
 class CourseList extends React.Component{
+    static navigationOptions = {title: 'Courses'}
     constructor(props){
         super(props);
         this.state={
@@ -13,6 +14,10 @@ class CourseList extends React.Component{
             .then(courses => {
                 this.setState({courses:courses})
             })
+    }
+
+    componentDidMount(){
+        const {navigation} = this.props
     }
 
     render(){
