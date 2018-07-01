@@ -29,8 +29,8 @@ class LessonList extends React.Component{
                 {this.state.lessons.map(
                     (lesson, index) => (
                         <ListItem
-                            // onPress={() => this.props.navigation
-                            //     .navigate("WidgetList", {lessonId: lesson.id})}
+                            onPress={() => this.props.navigation
+                                .navigate("WidgetList", {lessonId: lesson.id})}
                             key={index}
                             title={lesson.title}/>))}
             </View>
