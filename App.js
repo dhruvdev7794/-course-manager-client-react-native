@@ -14,6 +14,8 @@ import CourseList from './components/CourseList'
 import ModuleList from './components/ModuleList';
 import LessonList from './components/LessonList'
 import WidgetList from './components/WidgetList'
+import QuestionList from './components/QuestionList';
+import AssignmentWidget from './exam_widgets/AssignmentWidget'
 
 class Home extends React.Component{
 
@@ -43,6 +45,7 @@ class Home extends React.Component{
                         onPress={() => this.props.navigation
                             .navigate('ScreenX', {parameter: 'some value'})}/>
 
+                <AssignmentWidget/>
                 <TrueFalseQuestionEditor/>
                 <QuestionTypeButtonGroupChoose/>
                 <QuestionTypePicker/>
@@ -81,6 +84,8 @@ const App = createStackNavigator({
     Home,
     CourseList,
     ModuleList,
+    QuestionList,
+    AssignmentWidget,
     LessonList,
     WidgetList,
     ScreenA,

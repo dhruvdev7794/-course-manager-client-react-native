@@ -27,10 +27,19 @@ class WidgetList extends React.Component{
                 {this.state.widgets.map(
                     (widget, index) => (
                         <ListItem
-                            // onPress={() => this.props.navigation
-                            //     .navigate("QuestionList", {examId: widget.id})}
+                            onPress={() =>{
+                                if(widget.widgetType === 'Exam'){
+                                    // this.props.navigation
+                                    //     .navigate("QuestionList", {examId: widget.id})
+                                }
+                                else{
+                                    this.props.navigation
+                                    .navigate("AssignmentWidget", {examId: widget.id})
+                                }
+                            }}
+
                             key={index}
-                            // subtitle={widget.name}
+                            subtitle={widget.widgetType}
                             title={widget.text}/>))}
             </View>
         )
