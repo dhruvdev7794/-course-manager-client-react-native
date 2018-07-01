@@ -10,8 +10,9 @@ class AssignmentWidget extends React.Component{
         this.state={
             assignmentId: 1,
             lessonId: 1,
+            isNew: true,
             assignment: {
-                title: '',
+                text: '',
                 description: '',
                 points: 0,
                 widgetType: 'Assignment'
@@ -20,13 +21,39 @@ class AssignmentWidget extends React.Component{
         this.assignmentService = AssignmentServices.instance
 
     }
+    componentDidMount(){
+        const {navigation} = this.props;
+        const assignmentId = navigation.getParam("assignmentId");
+        const widget = navigation.getParam("widget");
+        const lessonId = navigation.getParam("lessonId");
+        let assignment = {};
+        if(widget!=null){
+            assignment ={
+                text: (widget.text != null || widget.text != undefined) ? widget.text : '',
+                description: (widget.description != null || widget.description != undefined) ? widget.description : '',
+                points: (widget.points != null || widget.points != undefined) ? widget.points : '',
+                widgetType: 'Assignment'
+            }
+        }
 
-    setTitle(title){
+        if(widget!==null){
+            this.setState({isNew: false})
+        }
+        this.setState({
+            assignmentId: assignmentId,
+            assignment: assignment,
+            lessonId: lessonId
+        })
+
+
+    }
+
+    setTitle(text){
         this.setState({
             assignment:{
-                title: title,
+                text: text,
                 description: this.state.assignment.description,
-                points:this.state.assignment.points,
+                points:this.state.assignment.points.toString(),
                 widgetType:this.state.widget
             }
         })
@@ -35,9 +62,9 @@ class AssignmentWidget extends React.Component{
     setDescription(description){
         this.setState({
             assignment:{
-                title: this.state.assignment.title,
+                text: this.state.assignment.text,
                 description: description,
-                points:this.state.assignment.points,
+                points:this.state.assignment.points.toString(),
                 widgetType:this.state.widget
             }
         })
@@ -46,12 +73,16 @@ class AssignmentWidget extends React.Component{
     setPoints(points){
         this.setState({
             assignment:{
-                title: this.state.assignment.title,
+                text: this.state.assignment.text,
                 description: this.state.assignment.description,
-                points:points,
+                points:points.toString(),
                 widgetType:this.state.widget
             }
         })
+    }
+
+    buttonPress(){
+        console.log("hi");
     }
 
     render(){
@@ -63,7 +94,7 @@ class AssignmentWidget extends React.Component{
                     Title
                 </FormLabel>
                 <FormInput
-                    value={this.state.assignment.title}
+                    value={this.state.assignment.text}
                     onChangeText={text => this.setTitle(text)}/>
 
                 <FormLabel>
@@ -83,17 +114,20 @@ class AssignmentWidget extends React.Component{
 
                 <Text h3>Preview</Text>
                 <View>
-                    <Text h4>{this.state.assignment.title}</Text>
-                    <Text h5>Points: {this.state.assignment.points}</Text>
+                    <Text h4>{this.state.assignment.text}</Text>
+                    <Text h5>Points: {this.state.assignment.points.toString()}</Text>
                     <Text h5>{this.state.assignment.description}</Text>
                     <FormInput
                         placeholder="Type your response"/>
                     <Text h5>Upload File</Text>
-                    <Button title="Upload"/>
+                    <Button title="Upload"
+                            onPress={() => this.buttonPress()}/>
                     <Text h5>Submit Link</Text>
                     <FormInput placeholder="Enter Link"/>
-                    <Button title="Submit"/>
-                    <Button title="Cancel"/>
+                    <Button title="Submit"
+                            onPress={() => this.buttonPress()}/>
+                    <Button title="Cancel"
+                            onPress={() => this.buttonPress()}/>
 
                 </View>
 
