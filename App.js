@@ -45,8 +45,8 @@ class Home extends React.Component{
                         onPress={() => this.props.navigation
                             .navigate('ScreenX', {parameter: 'some value'})}/>
 
-                <AssignmentWidget/>
-                <TrueFalseQuestionEditor/>
+                {/*<AssignmentWidget/>*/}
+                {/*<TrueFalseQuestionEditor/>*/}
                 <QuestionTypeButtonGroupChoose/>
                 <QuestionTypePicker/>
                 <TextHeadings/>
