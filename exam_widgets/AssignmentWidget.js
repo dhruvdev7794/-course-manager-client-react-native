@@ -34,6 +34,9 @@ class AssignmentWidget extends React.Component{
                 points: (widget.points != null || widget.points != undefined) ? widget.points : '',
                 widgetType: 'Assignment'
             }
+            this.setState({
+                assignment: assignment
+            })
         }
 
         if(widget!==null){
@@ -41,7 +44,6 @@ class AssignmentWidget extends React.Component{
         }
         this.setState({
             assignmentId: assignmentId,
-            assignment: assignment,
             lessonId: lessonId
         })
 

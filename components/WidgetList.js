@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {ScrollView, Button} from 'react-native';
 import {ListItem, Text} from 'react-native-elements';
 
 class WidgetList extends React.Component{
@@ -22,11 +22,14 @@ class WidgetList extends React.Component{
 
     render(){
         return(
-            <View>
+            <ScrollView>
                 <Text h2>Widgets</Text>
+                <Button title="Add widgets"
+                        onPress={() => this.props.navigation.navigate("AddWidget",{
+                            lessonId: this.state.lessonId
+                        })}/>
                 {this.state.widgets.map(
                     (widget, index) => {
-                        // console.log(widget);
                         return(
                         <ListItem
                             onPress={() =>{
@@ -43,12 +46,11 @@ class WidgetList extends React.Component{
                                         })
                                 }
                             }}
-
                             key={index}
                             subtitle={widget.title}
                             title={widget.description}/>
                     )})}
-            </View>
+            </ScrollView>
         )
     }
 }
