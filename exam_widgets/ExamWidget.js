@@ -1,9 +1,12 @@
 import React from 'react';
 import {Text, ButtonGroup} from 'react-native-elements';
 import {ScrollView} from 'react-native';
+import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
+import EssayQuestion from "./EssayQuestion";
 
 class ExamWidget extends React.Component{
 
+    static navigationOptions = {title: 'Exam Widget'};
     constructor(props){
         super(props);
         this.state={
@@ -16,7 +19,13 @@ class ExamWidget extends React.Component{
         }
     }
 
-
+    componentDidMount(){
+        const {navigation} = this.props;
+        const lessonId = navigation.getParam("lessonId");
+        this.setState({
+            lessonId: lessonId
+        })
+    }
 
     render(){
         return(
@@ -30,6 +39,12 @@ class ExamWidget extends React.Component{
                     buttons={this.state.widgetTypes}
                     containerStyle={{height: 75}}
                 />
+                <Text>{this.state.selected}</Text>
+                {this.state.selected===0 && <MultipleChoiceQuestion lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
+                {this.state.selected===1 && <EssayQuestion lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
+                {this.state.selected===2}
+                {this.state.selected===3}
+
             </ScrollView>
         )
     }

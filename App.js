@@ -17,6 +17,8 @@ import WidgetList from './components/WidgetList'
 import QuestionList from './components/QuestionList';
 import AssignmentWidget from './exam_widgets/AssignmentWidget'
 import AddWidget from './editors/AddWidget'
+import EssayQuestion from "./exam_widgets/EssayQuestion";
+import TrueOrFalseQuestionWidget from "./exam_widgets/TrueOrFalseQuestionWidget";
 
 class Home extends React.Component{
 
@@ -46,9 +48,8 @@ class Home extends React.Component{
                         onPress={() => this.props.navigation
                             .navigate('ScreenX', {parameter: 'some value'})}/>
 
-                {/*<AssignmentWidget/>*/}
-                {/*<TrueFalseQuestionEditor/>*/}
-                <QuestionTypeButtonGroupChoose/>
+                {/*<EssayQuestion/>*/}
+                <TrueOrFalseQuestionWidget/>
                 <QuestionTypePicker/>
                 <TextHeadings/>
                 <Icons/>
