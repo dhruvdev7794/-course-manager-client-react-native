@@ -19,6 +19,7 @@ import AssignmentWidget from './exam_widgets/AssignmentWidget'
 import AddWidget from './editors/AddWidget'
 import EssayQuestion from "./exam_widgets/EssayQuestion";
 import TrueOrFalseQuestionWidget from "./exam_widgets/TrueOrFalseQuestionWidget";
+import FillInTheBlanksQuestionWidget from "./exam_widgets/FillInTheBlanksQuestionWidget";
 
 class Home extends React.Component{
 
@@ -49,7 +50,8 @@ class Home extends React.Component{
                             .navigate('ScreenX', {parameter: 'some value'})}/>
 
                 {/*<EssayQuestion/>*/}
-                <TrueOrFalseQuestionWidget/>
+                {/*<TrueOrFalseQuestionWidget/>*/}
+                <FillInTheBlanksQuestionWidget/>
                 <QuestionTypePicker/>
                 <TextHeadings/>
                 <Icons/>
