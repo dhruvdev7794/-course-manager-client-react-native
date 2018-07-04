@@ -1,14 +1,27 @@
 import React from 'react'
 import {ScrollView, Button} from 'react-native'
 import {Text, ListItem} from 'react-native-elements'
+import AssignmentServices from "../services/AssignmentServices";
 
 export default class AssignmentList extends React.Component{
     constructor(props){
+
         super(props);
+        this.assignmentService = AssignmentServices.instance;
         this.state={
             assignments:[],
             lessonId: 1
+        };
+    }
+
+    componentDidMount(){
+        const {navigation} = this.props;
+        const lessonId = navigation.getParam("lessonId");
+        if(lessonId!=null){
+            this.setState({lessonId});
         }
+        this.assignmentService.findAssignmentsFromLessonId(lessonId)
+            .then(assignments => this.setState({assignments}))
     }
 
     render(){
@@ -19,23 +32,23 @@ export default class AssignmentList extends React.Component{
                     onPress={() => this.props.navigation.navigate("AssignmentWidget",{
                     lessonId: this.state.lessonId
                 })}/>
-                {this.state.assignments.map((assignments, index) => {
+                {this.state.assignments.map((assignment, index) => {
                     return(
                         <ListItem
                             onPress={() =>{
                                 this.props.navigation.navigate("AssignmentWidget"
-                                    // ,
-                                    // {
-                                    // assignmentId: widget.id,
-                                    // widget: widget,
-                                    // lessonId: this.state.lessonId
-                                    // }
+                                    ,
+                                    {
+                                    assignmentId: assignment.id,
+                                    widget: assignment,
+                                    lessonId: this.state.lessonId
+                                    }
 
                                 )}
                             }
                             key={index}
-                            subtitle={assignments.title}
-                            title={assignments.description}/>
+                            subtitle={assignment.title}
+                            title={assignment.description}/>
                             )})}
 
             </ScrollView>

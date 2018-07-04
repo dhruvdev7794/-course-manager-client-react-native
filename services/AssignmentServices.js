@@ -21,9 +21,20 @@ class AssignmentServices{
     }
 
     findAssignmentById(assignmentId){
-        return fetch(ASSIGNMENT_API_URL+'/'+assignmentId).then(function (response){
-            return response.json();
-        })
+        return fetch(ASSIGNMENT_API_URL+'/'+assignmentId)
+            .then(function(response){
+                return response;
+            })
+    }
+
+    findAssignmentsFromLessonId(lessonId){
+        return fetch(ASSIGNMENT_LESSON_API_URL.replace("LID", lessonId))
+            .then(function (response){
+                if(response.status>409){
+                    return null;
+                }
+                return response.json();
+            })
     }
 
     findAllAssignment(){
@@ -34,10 +45,12 @@ class AssignmentServices{
     }
 
     createAssignment(lessonId, assignment){
+        console.log(assignment);
+        console.log(lessonId);
         return fetch(ASSIGNMENT_LESSON_API_URL.replace("LID", lessonId),{
                 body: JSON.stringify(assignment),
                 headers: {'Content-type': 'application/json'},
-                method: 'POST'
+                method: 'PUT'
             }).then(function (response) {
                 return response.json();
         })
@@ -47,7 +60,7 @@ class AssignmentServices{
         return fetch(ASSIGNMENT_API_URL+'/'+assignmentId,{
                 body: JSON.stringify(assignment),
                 headers: {'Content-type': 'application/json'},
-                method: 'POST'
+                method: 'PUT'
             })
             .then(function (response){
                 return response.json();

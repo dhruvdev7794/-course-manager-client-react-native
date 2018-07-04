@@ -29,6 +29,7 @@ class AssignmentWidget extends React.Component{
         const assignmentId = navigation.getParam("assignmentId");
         const widget = navigation.getParam("widget");
         const lessonId = navigation.getParam("lessonId");
+
         let assignment = {};
         if(widget!=null){
             assignment ={
@@ -45,10 +46,17 @@ class AssignmentWidget extends React.Component{
         if(widget!==null){
             this.setState({isNew: false})
         }
-        this.setState({
-            assignmentId: assignmentId,
-            lessonId: lessonId
-        })
+        if(assignmentId!=undefined){
+            this.setState({
+                assignmentId: assignmentId
+            })
+        }
+        if(lessonId!=undefined){
+            this.setState({
+                lessonId: lessonId
+            })
+        }
+
 
 
     }
@@ -91,15 +99,17 @@ class AssignmentWidget extends React.Component{
     }
 
     createOrUpdateAssignment(){
-        console.log(this.assignmentService);
-        self.assignmentService.findAssignmentById(this.state.assignmentId)
-            .then(function (response) {
-                response = response.json();
+        let lessonId = this.state.lessonId;
+        let assignment = this.state.assignment;
+        let assignmentId = this.state.assignmentId;
+        assignment.widgetType='Assignment';
+        return self.assignmentService.findAssignmentById(assignmentId)
+            .then(function(response) {
                 if(response!=null){
-                    this.createAssgn(this.state.lessonId, this.state.assignment);
+                    self.createAssgn(lessonId, assignment);
                 }
                 else{
-                    this.updateAssgn(this.state.assignmentId, this.state.assignment);
+                    self.updateAssgn(assignmentId, assignment);
                 }
             })
     }

@@ -14,7 +14,11 @@ class WidgetList extends React.Component{
 
     componentDidMount() {
         const {navigation} = this.props;
-        const lessonId = navigation.getParam("lessonId")
+        const lessonId = navigation.getParam("lessonId");
+        if(lessonId!=null){
+            this.setState({lessonId});
+        }
+
         fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
             .then(response => (response.json()))
             .then(widgets => this.setState({widgets}))
