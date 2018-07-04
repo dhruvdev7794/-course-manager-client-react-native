@@ -20,6 +20,8 @@ import AddWidget from './editors/AddWidget'
 import EssayQuestion from "./exam_widgets/EssayQuestion";
 import TrueOrFalseQuestionWidget from "./exam_widgets/TrueOrFalseQuestionWidget";
 import FillInTheBlanksQuestionWidget from "./exam_widgets/FillInTheBlanksQuestionWidget";
+import AssignmentList from './components/AssignmentList'
+import ExamList from './components/ExamList'
 
 class Home extends React.Component{
 
@@ -91,6 +93,8 @@ const App = createStackNavigator({
     ModuleList,
     QuestionList,
     AssignmentWidget,
+    AssignmentList,
+    ExamList,
     LessonList,
     WidgetList,
     ScreenA,
