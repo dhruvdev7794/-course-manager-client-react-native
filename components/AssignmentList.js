@@ -47,8 +47,8 @@ export default class AssignmentList extends React.Component{
                                 )}
                             }
                             key={index}
-                            subtitle={assignment.title}
-                            title={assignment.description}/>
+                            subtitle={assignment.description}
+                            title={assignment.text}/>
                             )})}
 
             </ScrollView>

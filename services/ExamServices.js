@@ -28,6 +28,7 @@ class ExamServices{
     }
 
     findExamByLesson(lessonId){
+        console.log(EXAM_LESSON_API_URL.replace("LID", lessonId));
         return fetch(EXAM_LESSON_API_URL.replace("LID", lessonId))
             .then(function (response){
                 return response.json();

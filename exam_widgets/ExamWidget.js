@@ -3,6 +3,7 @@ import {Text, ButtonGroup} from 'react-native-elements';
 import {ScrollView} from 'react-native';
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
 import EssayQuestion from "./EssayQuestion";
+import TrueOrFalseQuestionWidget from "./TrueOrFalseQuestionWidget";
 
 class ExamWidget extends React.Component{
 
@@ -42,8 +43,8 @@ class ExamWidget extends React.Component{
                 <Text>{this.state.selected}</Text>
                 {this.state.selected===0 && <MultipleChoiceQuestion lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
                 {this.state.selected===1 && <EssayQuestion lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
-                {this.state.selected===2}
-                {this.state.selected===3}
+                {this.state.selected===2 && <EssayQuestion/>}
+                {this.state.selected===3 && <TrueOrFalseQuestionWidget/>}
 
             </ScrollView>
         )
