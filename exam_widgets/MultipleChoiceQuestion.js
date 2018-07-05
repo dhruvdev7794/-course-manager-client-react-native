@@ -11,13 +11,27 @@ export default class MultipleChoiceQuestion extends React.Component{
             mcqArray: [],
             points: 0,
             exam:{
-                text:'',
-                description:'',
+                title:'',
+                subtitle:'',
                 points:0,
                 questionType:'mcq'
             }
         }
     }
+
+    componentDidMount(){
+        const {navigation} = this.props;
+        const examId = navigation.getParam("examId");
+        const lessonId = navigation.getParam("lessonId");
+        const question = navigation.getParam("question");
+        this.setState({
+            examId: examId,
+            lessonId: lessonId,
+            question:question
+        });
+    }
+
+
     setText(text){
         this.setState({
             textInput: text
@@ -45,7 +59,7 @@ export default class MultipleChoiceQuestion extends React.Component{
         this.setState({
             exam:{
                 title:text,
-                description: this.state.exam.description,
+                subtitle: this.state.exam.subtitle,
                 points: this.state.exam.points.toString(),
                 questionType: 'Essay'
             }
@@ -56,7 +70,7 @@ export default class MultipleChoiceQuestion extends React.Component{
         this.setState({
             exam:{
                 title:this.state.exam.title,
-                description: text,
+                subtitle: text,
                 points: this.state.exam.points.toString(),
                 questionType: 'Essay'
             }
@@ -67,7 +81,7 @@ export default class MultipleChoiceQuestion extends React.Component{
         this.setState({
             exam:{
                 title:this.state.exam.title,
-                description: this.state.exam.description,
+                subtitle: this.state.exam.subtitle,
                 points: text.toString(),
                 questionType: 'Essay'
             }
@@ -84,14 +98,14 @@ export default class MultipleChoiceQuestion extends React.Component{
                     Title
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.text}
+                    value={this.state.exam.title}
                     onChangeText={text => this.setTitle(text)}/>
 
                 <FormLabel>
                     Description
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.description}
+                    value={this.state.exam.subtitle}
                     onChangeText={text => this.setDescription(text)}/>
 
                 <FormLabel>
@@ -115,9 +129,10 @@ export default class MultipleChoiceQuestion extends React.Component{
 
                 <Text>{this.state.exam.title}</Text>
                 <Text>Points: {this.state.exam.points}</Text>
-                <Text>Description:  {this.state.description}</Text>
+                <Text>{this.state.exam.subtitle}</Text>
                 {this.state.mcqArray.map((option, index) => (
                     <View
+                        key={index}
                         style={{
                             flexDirection: 'row'
                             }}>

@@ -44,17 +44,42 @@ class QuestionList extends React.Component{
                         subtitle={question.subtitle}
                         title={question.title}
                         onPress={() => {
-                            if(question.type==="TF"){
 
+                            if(question.type==="TF"){
+                                this.props.navigation.navigate("TrueOrFalseQuestionWidget",{
+                                    examId: this.state.examId,
+                                    lessonId: this.state.lessonId,
+                                    navigation: this.props.navigation,
+                                    question: question
+                                })
+                                // <TrueOrFalseQuestionWidget examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                             else if(question.type === "MC"){
-
+                                this.props.navigation.navigate("MultipleChoiceQuestion",{
+                                    examId: this.state.examId,
+                                    lessonId: this.state.lessonId,
+                                    navigation: this.props.navigation,
+                                    question: question
+                                })
+                                // <MultipleChoiceQuestion examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                             else if(question.type === "FB"){
-
+                                this.props.navigation.navigate("FillInTheBlanksQuestionWidget",{
+                                    examId: this.state.examId,
+                                    lessonId: this.state.lessonId,
+                                    navigation: this.props.navigation,
+                                    question: question
+                                })
+                                // <FillInTheBlanksQuestionWidget examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                             else if(question.type === "ES"){
-
+                                this.props.navigation.navigate("EssayQuestion",{
+                                    examId: this.state.examId,
+                                    lessonId: this.state.lessonId,
+                                    navigation: this.props.navigation,
+                                    question: question
+                                })
+                                // <EssayQuestion examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                         }}/>
                 ))}

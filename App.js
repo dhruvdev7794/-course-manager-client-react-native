@@ -20,6 +20,7 @@ import AddWidget from './editors/AddWidget'
 import EssayQuestion from "./exam_widgets/EssayQuestion";
 import TrueOrFalseQuestionWidget from "./exam_widgets/TrueOrFalseQuestionWidget";
 import FillInTheBlanksQuestionWidget from "./exam_widgets/FillInTheBlanksQuestionWidget";
+import MultipleChoiceQuestion from "./exam_widgets/MultipleChoiceQuestion"
 import AssignmentList from './components/AssignmentList'
 import ExamList from './components/ExamList'
 import ExamWidget from './exam_widgets/ExamWidget'
@@ -100,6 +101,10 @@ const App = createStackNavigator({
     LessonList,
     WidgetList,
     ScreenA,
+    FillInTheBlanksQuestionWidget,
+    TrueOrFalseQuestionWidget,
+    EssayQuestion,
+    MultipleChoiceQuestion,
     ScreenB,
     ScreenX
 });

@@ -16,7 +16,7 @@ export default class EssayQuestion extends React.Component{
                 text:'',
                 subtitle:'',
                 points:0,
-                questionType:'Essay'
+                questionType:'ES'
             }
         }
     }
@@ -24,9 +24,11 @@ export default class EssayQuestion extends React.Component{
         const {navigation} = this.props;
         const examId = navigation.getParam("examId");
         const lessonId = navigation.getParam("lessonId");
+        const question = navigation.getParam("question");
         this.setState({
             examId: examId,
-            lessonId: lessonId
+            lessonId: lessonId,
+            question:question
         });
     }
 
@@ -79,7 +81,7 @@ export default class EssayQuestion extends React.Component{
                     Title
                 </FormLabel>
                 <FormInput
-                    value={this.state.question.text}
+                    value={this.state.question.title}
                     onChangeText={text => this.setTitle(text)}/>
 
                 <FormLabel>
