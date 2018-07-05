@@ -54,7 +54,7 @@ class Home extends React.Component{
 
                 {/*<EssayQuestion/>*/}
                 {/*<TrueOrFalseQuestionWidget/>*/}
-                <FillInTheBlanksQuestionWidget/>
+                {/*<FillInTheBlanksQuestionWidget/>*/}
                 <QuestionTypePicker/>
                 <TextHeadings/>
                 <Icons/>
