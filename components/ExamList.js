@@ -31,14 +31,14 @@ export default class ExamList extends React.Component{
         return(
             <ScrollView>
                 <Text h4>Exams</Text>
-                <Button title="Add widgets"
+                <Button title="Add Exam"
                         onPress={() => this.props.navigation.navigate("ExamWidget",{
                             lessonId: this.state.lessonId
                         })}/>
                 {this.state.exams.map((exam, index) => {
                     return(
                         <ListItem
-                            onPress={()=>this.props.navigation.navigate("ExamWidget",{
+                            onPress={()=>this.props.navigation.navigate("QuestionList",{
                                 lessonId: this.state.lessonId,
                                 examId: exam.id,
                                 exam: exam

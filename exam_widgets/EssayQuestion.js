@@ -1,59 +1,74 @@
 import React from 'react'
 import {ScrollView, View, Button} from 'react-native'
 import {Text, FormInput, FormLabel} from 'react-native-elements'
+import EssayService from "../services/EssayService";
 
 
 export default class EssayQuestion extends React.Component{
 
     constructor(props){
         super(props);
+        this.essayService = EssayService.instance
         this.state={
             lessonId:1,
-            exam:{
+            examId:1,
+            question:{
                 text:'',
-                description:'',
+                subtitle:'',
                 points:0,
                 questionType:'Essay'
             }
         }
     }
+    componentDidMount(){
+        const {navigation} = this.props;
+        const examId = navigation.getParam("examId");
+        const lessonId = navigation.getParam("lessonId");
+        this.setState({
+            examId: examId,
+            lessonId: lessonId
+        });
+    }
 
     setTitle(text){
         this.setState({
-            exam:{
+            question:{
                 title:text,
-                description: this.state.exam.description,
-                points: this.state.exam.points.toString(),
-                questionType: 'Essay'
+                subtitle: this.state.question.subtitle,
+                points: this.state.question.points.toString(),
+                type: 'ES'
             }
         })
 
     }
     setDescription(text){
         this.setState({
-            exam:{
-                title:this.state.exam.title,
-                description: text,
-                points: this.state.exam.points.toString(),
-                questionType: 'Essay'
+            question:{
+                title:this.state.question.title,
+                subtitle: text,
+                points: this.state.question.points.toString(),
+                type: 'ES'
             }
         })
 
     }
     setPoints(text){
         this.setState({
-            exam:{
-                title:this.state.exam.title,
-                description: this.state.exam.description,
+            question:{
+                title:this.state.question.title,
+                subtitle: this.state.question.subtitle,
                 points: text.toString(),
-                questionType: 'Essay'
+                type: 'ES'
             }
         })
 
     }
 
     submitBtn(){
-        console.log("Submit button clicked")
+        this.essayService.createEssayQuestion(this.state.examId, this.state.question)
+            .then(function (response) {
+                console.log(response);
+            })
     }
 
     render(){
@@ -64,29 +79,29 @@ export default class EssayQuestion extends React.Component{
                     Title
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.text}
+                    value={this.state.question.text}
                     onChangeText={text => this.setTitle(text)}/>
 
                 <FormLabel>
                     Description
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.description}
+                    value={this.state.question.subtitle}
                     onChangeText={text => this.setDescription(text)}/>
 
                 <FormLabel>
                     Points
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.points.toString()}
+                    value={this.state.question.points.toString()}
                     onChangeText={text => this.setPoints(text)}/>
 
 
                 <Text h4>Preview</Text>
 
-                <Text>{this.state.exam.title}</Text>
-                <Text>Points: {this.state.exam.points}</Text>
-                <Text>Description:  {this.state.description}</Text>
+                <Text>{this.state.question.title}</Text>
+                <Text>Points: {this.state.question.points}</Text>
+                <Text>Description:  {this.state.question.subtitle}</Text>
                 <FormInput
                     placeholder="Enter Essay here"/>
                 <Button

@@ -1,6 +1,10 @@
 import React from 'react';
-import {Text, ListItem} from 'react-native-elements';
+import {Text, ListItem, ButtonGroup} from 'react-native-elements';
 import {ScrollView, Picker} from 'react-native';
+import MultipleChoiceQuestion from "../exam_widgets/MultipleChoiceQuestion";
+import EssayQuestion from "../exam_widgets/EssayQuestion";
+import TrueOrFalseQuestionWidget from "../exam_widgets/TrueOrFalseQuestionWidget";
+import FillInTheBlanksQuestionWidget from "../exam_widgets/FillInTheBlanksQuestionWidget";
 
 class QuestionList extends React.Component{
     constructor(props){
@@ -10,10 +14,13 @@ class QuestionList extends React.Component{
             questions:[],
             examId: 1,
             lessonId: 1,
-            newQuestion:''
+            newQuestion:'',
+            widgetTypes:['Multiple Choice',
+                'Fill in the blank', 'Essay', 'True or\nfalse'],
+            selected: 0,
         }
     }
-    componenetDidMount(){
+    componentDidMount(){
         const {navigation} = this.props;
         const examId = navigation.getParam("examId");
         const lessonId = navigation.getParam("lessonId");
@@ -21,7 +28,7 @@ class QuestionList extends React.Component{
             examId: examId,
             lessonId: lessonId
         });
-
+        console.log("http://localhost:8080/api/exam/"+examId+"/question");
         fetch("http://localhost:8080/api/exam/"+examId+"/question")
             .then(response => (response.json()))
             .then(questions => this.setState({questions: questions}));
@@ -30,17 +37,6 @@ class QuestionList extends React.Component{
         return(
             <ScrollView>
                 <Text h2>Exams</Text>
-                <Picker
-                    selectedValue={this.state.questionType}
-                    onValueChange={(itemValue, itemIndex) =>
-                        this.setState({questionType: itemValue})}>
-                    <Picker.Item value="MC" label="Multiple choice" />
-                    <Picker.Item value="ES" label="Essay" />
-                    <Picker.Item value="TF" label="True or false" />
-                    <Picker.Item value="FB" label="Fill in the blanks" />
-                </Picker>
-
-
 
                 {this.state.questions.map((question, index) => (
                     <ListItem
@@ -62,6 +58,20 @@ class QuestionList extends React.Component{
                             }
                         }}/>
                 ))}
+                <Text>{JSON.stringify(this.state.questions)}</Text>
+                <ButtonGroup
+                    onPress={select => this.setState({
+                        selected: select
+                    })}
+                    selectedIndex={this.state.selected}
+                    buttons={this.state.widgetTypes}
+                    containerStyle={{height: 75}}
+                />
+                <Text>{this.state.selected}</Text>
+                {this.state.selected===0 && <MultipleChoiceQuestion examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
+                {this.state.selected===1 && <FillInTheBlanksQuestionWidget examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
+                {this.state.selected===2 && <EssayQuestion examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
+                {this.state.selected===3 && <TrueOrFalseQuestionWidget examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>}
 
             </ScrollView>
         )
