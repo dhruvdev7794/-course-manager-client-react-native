@@ -2,7 +2,7 @@ import React from 'react'
 import {Text, FormLabel, FormInput, CheckBox} from 'react-native-elements'
 import {ScrollView, Button} from 'react-native'
 import TrueOrFalseService from "../services/TrueOrFalseService";
-
+let self
 export default class TrueOrFalseQuestionWidget extends React.Component{
     constructor(props){
         super(props);
@@ -10,7 +10,7 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
         this.state={
             lessonId:1,
             examId: 1,
-            isTrue:false,
+            questionId:1,
             question:{
                 points: 0,
                 title: '',
@@ -19,6 +19,7 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
                 isTrue:false
             }
         }
+        self=this;
     }
 
     componentDidMount(){
@@ -31,7 +32,7 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
             lessonId: lessonId
         });
         if(question!=null){
-            this.setState({question: question});
+            this.setState({question: question, questionId:question.id});
         }
     }
 
@@ -73,8 +74,6 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
 
     }
     setTrue(isTrue){
-
-
         this.setState({
             question:{
                 title:this.state.question.title,
@@ -84,15 +83,27 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
                 isTrue: isTrue
             }
         })
-        this.setState({isTrue: isTrue});
     }
 
     submitBtn(){
-        console.log(this.state.question);
-        this.trueFalseService.createTFQuestion(this.state.examId, this.state.question)
+        return self.trueFalseService.findTFFromQuestionId(this.state.questionId)
             .then(function (response) {
-                console.log(response);
+                if(response==null){
+                    self.trueFalseService.createTFQuestion(self.state.examId, self.state.question)
+                        .then(function (response) {
+                            console.log(response);
+                        })
+                }
+                else{
+                    let question = self.state.question
+                    question.id = self.state.questionId;
+                    self.trueFalseService.updateTFQuestion(self.state.examId, question)
+                        .then(function (response) {
+                            console.log(response);
+                        })
+                }
             })
+
     }
 
     render(){
@@ -119,8 +130,8 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
                 <FormInput
                     value={this.state.question.points.toString()}
                     onChangeText={text => this.setPoints(text)}/>
-                <CheckBox onPress={() => this.setTrue(!this.state.isTrue)}
-                        checked={this.state.isTrue}
+                <CheckBox onPress={() => this.setTrue(!this.state.question.isTrue)}
+                        checked={this.state.question.isTrue}
                         title="The answer is True"/>
 
 
@@ -129,10 +140,9 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
                 <Text h4>Points: {this.state.question.points.toString()}</Text>
                 <Text h4>{this.state.question.subtitle}</Text>
                 <CheckBox title="True"
-                    checked={this.state.isTrue}/>
+                    checked={this.state.question.isTrue}/>
                 <CheckBox title="False"
-                    checked={!this.state.isTrue}/>
-
+                    checked={!this.state.question.isTrue}/>
                 <Button
                 title="Submit"
                 onPress={() => this.submitBtn()}/>

@@ -24,5 +24,25 @@ export default class TrueOrFalseService{
         })
     }
 
+    updateTFQuestion(examId, tfQuestion){
+        return fetch(TRUE_FALSE_EXAM_API_URL.replace("EID", examId), {
+            body: JSON.stringify(tfQuestion),
+            headers: {'Content-type': 'application/json'},
+            method: 'PUT'
+        }).then(function (response){
+            return response.json();
+        })
+    }
+
+    findTFFromQuestionId(questionId){
+        return fetch(TRUE_FALSE_API_URL+"/"+questionId)
+            .then(function (response) {
+                if(response.status>400){
+                    return null;
+                }
+                return response.json();
+            })
+    }
+
 
 }
