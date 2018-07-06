@@ -13,16 +13,6 @@ export default class QuestionServices{
         return this[_singleton]
     }
 
-    createEssayQuestion(examId, essay){
-        return fetch(QUESTION_EXAM_API_URL+'/essay'.replace(':EID', examId),{
-            method:'post',
-            body:JSON.stringify(essay),
-            headers: {'Content-Type':'application/json'}
-        }).then( function (response){
-            return response.json();
-        })
-    }
-
     createMcqQuestion(examId, mcq){
         return fetch(QUESTION_EXAM_API_URL+'/choice'.replace(':EID', examId),{
             method:'post',

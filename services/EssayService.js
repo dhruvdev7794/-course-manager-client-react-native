@@ -23,5 +23,23 @@ export default class EssayService{
             return response.json();
         })
     }
+    updateEssayQuestion(examId, essay){
+        return fetch(ESSAY_EXAM_API_URL.replace("EID", examId), {
+            body: JSON.stringify(essay),
+            headers: {'Content-type': 'application/json'},
+            method: 'PUT'
+        }).then(function (response){
+            return response.json();
+        })
+    }
 
+    findEssayFromQuestionId(questionId){
+        return fetch(ESSAY_API_URL+"/"+questionId)
+            .then(function (response) {
+                if(response.status>400){
+                    return null;
+                }
+                return response.json();
+            })
+    }
 }
