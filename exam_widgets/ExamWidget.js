@@ -5,7 +5,7 @@ import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
 import EssayQuestion from "./EssayQuestion";
 import TrueOrFalseQuestionWidget from "./TrueOrFalseQuestionWidget";
 import ExamServices from "../services/ExamServices";
-
+let self;
 class ExamWidget extends React.Component{
 
     static navigationOptions = {title: 'Exam Widget'};
@@ -25,6 +25,7 @@ class ExamWidget extends React.Component{
                 'Fill in the blank', 'Essay', 'True or\nfalse'],
             selected: 0,
         }
+        self = this;
     }
 
     componentDidMount(){
@@ -56,7 +57,7 @@ class ExamWidget extends React.Component{
     submitBtn(){
         this.examService.createNewExam(this.state.lessonId, this.state.exam)
             .then(function (response) {
-                console.log(response);
+                self.props.navigation.goBack();
             })
     }
 

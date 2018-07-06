@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, ListItem, ButtonGroup} from 'react-native-elements';
-import {ScrollView, Picker} from 'react-native';
+import {Text, ListItem, ButtonGroup, Icon} from 'react-native-elements';
+import {ScrollView, Picker, View} from 'react-native';
 import MultipleChoiceQuestion from "../exam_widgets/MultipleChoiceQuestion";
 import EssayQuestion from "../exam_widgets/EssayQuestion";
 import TrueOrFalseQuestionWidget from "../exam_widgets/TrueOrFalseQuestionWidget";
@@ -39,8 +39,9 @@ class QuestionList extends React.Component{
                 <Text h2>Exams</Text>
 
                 {this.state.questions.map((question, index) => (
+                    <View key={index}>
                     <ListItem
-                        key={index}
+
                         subtitle={question.subtitle}
                         title={question.title}
                         onPress={() => {
@@ -78,6 +79,7 @@ class QuestionList extends React.Component{
                                 })
                             }
                         }}/>
+                    </View>
                 ))}
                 <ButtonGroup
                     onPress={select => this.setState({

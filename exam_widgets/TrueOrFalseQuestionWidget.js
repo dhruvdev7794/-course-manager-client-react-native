@@ -147,6 +147,10 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
                 title="Submit"
                 onPress={() => this.submitBtn()}/>
 
+                <Button
+                    title="Cancel"
+                    onPress={() => this.props.navigation.goBack()}/>
+
 
             </ScrollView>
         )

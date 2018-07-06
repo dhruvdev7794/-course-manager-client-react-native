@@ -1,8 +1,8 @@
 import React from 'react'
-import {ScrollView, Button} from 'react-native'
-import {Text, ListItem} from 'react-native-elements'
+import {ScrollView, Button, View} from 'react-native'
+import {Text, ListItem, Icon} from 'react-native-elements'
 import ExamServices from "../services/ExamServices";
-
+let self;
 export default class ExamList extends React.Component{
     constructor(props){
         super(props);
@@ -11,6 +11,7 @@ export default class ExamList extends React.Component{
             exams:[],
             lessonId: 1
         }
+        self = this;
     }
 
     componentDidMount(){
@@ -27,6 +28,14 @@ export default class ExamList extends React.Component{
 
     }
 
+    deleteOption(exam){
+        this.examServices.deleteExam(exam.id)
+            .then(function (res) {
+                self.examServices.findExamByLesson(self.state.lessonId)
+                    .then(exams => self.setState({exams}))
+            })
+    }
+
     render(){
         return(
             <ScrollView>
@@ -37,15 +46,22 @@ export default class ExamList extends React.Component{
                         })}/>
                 {this.state.exams.map((exam, index) => {
                     return(
+                        <View key={index}>
                         <ListItem
                             onPress={()=>this.props.navigation.navigate("QuestionList",{
                                 lessonId: this.state.lessonId,
                                 examId: exam.id,
                                 exam: exam
                             })}
-                            key={index}
+
                             title={exam.text}
                             subtitle={exam.description}/>
+                            <Icon
+                                name="trash"
+                                type="font-awesome"
+                                onPress={() => this.deleteOption(exam)}
+                            />
+                        </View>
                     )
                 })}
             </ScrollView>
