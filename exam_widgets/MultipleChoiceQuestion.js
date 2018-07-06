@@ -2,7 +2,7 @@ import React from 'react'
 import {Text, Icon, FormLabel, FormInput, CheckBox} from 'react-native-elements'
 import {ScrollView, Button, View} from 'react-native'
 import MultipleChoiceQuestionService from "../services/MultipleChoiceQuestionService";
-
+let self;
 export default class MultipleChoiceQuestion extends React.Component{
     constructor(props){
         super(props);
@@ -12,6 +12,7 @@ export default class MultipleChoiceQuestion extends React.Component{
             textInput:'',
             mcqArray: [],
             points: 0,
+            id:1,
             question:{
                 title:'',
                 subtitle:'',
@@ -20,7 +21,8 @@ export default class MultipleChoiceQuestion extends React.Component{
                 correctOption:'',
                 options:''
             }
-        }
+        };
+        self = this;
     }
 
     componentDidMount(){
@@ -33,8 +35,9 @@ export default class MultipleChoiceQuestion extends React.Component{
             lessonId: lessonId
         });
         if(question!=null){
-            question.options=question.options.split('|');
-            this.setState({question:question});
+            if(typeof question.options != "object")
+                question.options=question.options.split('|');
+            this.setState({question:question, id:question.id});
             this.setState({mcqArray:question.options});
         }
     }
@@ -54,12 +57,28 @@ export default class MultipleChoiceQuestion extends React.Component{
         })
     }
     submitBtn(){
-        let question = this.state.question;
-        question.options = this.state.mcqArray.join('|');
-        this.mcqService.createMCQQuestion(this.state.examId, question)
+        return this.mcqService.findMCQFromQuestionId(this.state.id)
             .then(function (response) {
-                this.props.navigation.goBack()
-            })
+                if(response==null){
+                    let question = self.state.question;
+                    question.options = self.state.mcqArray.join('|');
+                    self.mcqService.createMCQQuestion(self.state.examId, question)
+                        .then(function (response) {
+                            self.props.navigation.goBack()
+                        })
+                }
+                else{
+                    let question = self.state.question;
+                    question.id=self.state.id;
+                    question.options = self.state.mcqArray.join('|');
+                    console.log(question);
+                    self.mcqService.createMCQQuestion(self.state.examId, question)
+                        .then(function (response) {
+                            self.props.navigation.goBack()
+                        })
+                }
+            });
+
     }
     deleteOption(index){
         let mcq = this.state.mcqArray;

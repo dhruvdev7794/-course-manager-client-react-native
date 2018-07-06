@@ -24,4 +24,24 @@ export default class MultipleChoiceQuestionService{
             return response.json();
         })
     }
+    updateMCQQuestion(examId, mcqQuestion){
+        return fetch(MCQ_EXAM_API_URL.replace("EID", examId), {
+            body: JSON.stringify(mcqQuestion),
+            headers: {'Content-type': 'application/json'},
+            method: 'PUT'
+        }).then(function (response){
+            return response.json();
+        })
+    }
+
+    findMCQFromQuestionId(questionId){
+        return fetch(MCQ_API_URL+"/"+questionId)
+            .then(function (response) {
+                if(response.status>400){
+                    return null;
+                }
+                return response.json();
+            })
+    }
+
 }
