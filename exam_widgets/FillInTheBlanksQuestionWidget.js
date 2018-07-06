@@ -2,13 +2,14 @@ import React from 'react'
 import {Text, FormInput, FormLabel} from 'react-native-elements'
 import {ScrollView,View , Button, TextInput} from 'react-native'
 import FillInTheBlanksService from "../services/FillInTheBlanksService";
-
+let self;
 export default class FillInTheBlanksQuestionWidget extends React.Component{
     constructor(props){
         super(props);
         this.fillInBlanksService = FillInTheBlanksService.instance
         this.state = {
             lessonId: 1,
+            id:1,
             questionArr:[],
             question:{
                 title: '',
@@ -21,6 +22,7 @@ export default class FillInTheBlanksQuestionWidget extends React.Component{
                 variable:[]
             }
         }
+        self = this;
     }
     componentDidMount(){
         const {navigation} = this.props;
@@ -32,10 +34,10 @@ export default class FillInTheBlanksQuestionWidget extends React.Component{
             lessonId: lessonId
         });
         if(question!=null){
-            question.questionTxtArr = question.questionTxtArr.split('|');
-            question.answer = question.answer.split('|');
-            question.variable = question.variable.split('|');
-            this.setState({question: question});
+            if(typeof question.questionTxtArr != "object") question.questionTxtArr = question.questionTxtArr.split('|');
+            if(typeof question.answer != "object") question.answer = question.answer.split('|');
+            if(typeof question.variable != "object") question.variable = question.variable.split('|');
+            this.setState({question: question, id:question.id});
         }
     }
 
@@ -134,21 +136,47 @@ export default class FillInTheBlanksQuestionWidget extends React.Component{
     }
 
     submitBtn(){
-        let question = this.state.question;
-        question={
-            title:this.state.question.title,
-            subtitle: this.state.question.subtitle,
-            points: this.state.question.points.toString(),
-            type: 'FB',
-            questionText:this.state.question.questionText,
-            questionTxtArr:question.questionTxtArr.join('|'),
-            answer:question.answer.join('|'),
-            variable:question.variable.join('|')
-        };
-        this.fillInBlanksService.createFBQuestion(this.state.examId, question)
+        return this.fillInBlanksService.findFBromQuestionId(this.state.id)
             .then(function (response) {
-                console.log(response);
+                if(response==null){
+                    let question = self.state.question;
+                    question={
+                        title:self.state.question.title,
+                        subtitle: self.state.question.subtitle,
+                        points: self.state.question.points.toString(),
+                        type: 'FB',
+                        questionText:self.state.question.questionText,
+                        questionTxtArr:question.questionTxtArr.join('|'),
+                        answer:question.answer.join('|'),
+                        variable:question.variable.join('|')
+                    };
+                    self.fillInBlanksService.createFBQuestion(self.state.examId, question)
+                        .then(function (response) {
+                            self.props.navigation.goBack();
+                        })
+                }
+                else{
+                    console.log("here");
+                    let question = self.state.question;
+                    question={
+                        id:self.state.id,
+                        title:self.state.question.title,
+                        subtitle: self.state.question.subtitle,
+                        points: self.state.question.points.toString(),
+                        type: 'FB',
+                        questionText:self.state.question.questionText,
+                        questionTxtArr:question.questionTxtArr.join('|'),
+                        answer:question.answer.join('|'),
+                        variable:question.variable.join('|')
+                    };
+                    self.fillInBlanksService.updateFBQuestion(self.state.examId, question)
+                        .then(function (response) {
+                            self.props.navigation.goBack();
+                        })
+                }
             })
+        
+
     }
 
     render(){
