@@ -34,8 +34,8 @@ export default class MultipleChoiceQuestion extends React.Component{
         });
         if(question!=null){
             question.options=question.options.split('|');
-            this.setState({question:question})
-            this.setState({mcqArray:question.options})
+            this.setState({question:question});
+            this.setState({mcqArray:question.options});
         }
     }
 

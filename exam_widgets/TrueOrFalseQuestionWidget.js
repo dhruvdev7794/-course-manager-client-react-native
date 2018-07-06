@@ -28,9 +28,11 @@ export default class TrueOrFalseQuestionWidget extends React.Component{
         const question = navigation.getParam("question");
         this.setState({
             examId: examId,
-            lessonId: lessonId,
-            question: question
+            lessonId: lessonId
         });
+        if(question!=null){
+            this.setState({question: question});
+        }
     }
 
 

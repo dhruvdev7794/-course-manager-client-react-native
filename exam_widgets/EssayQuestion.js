@@ -8,17 +8,17 @@ export default class EssayQuestion extends React.Component{
 
     constructor(props){
         super(props);
-        this.essayService = EssayService.instance
         this.state={
             lessonId:1,
             examId:1,
             question:{
-                text:'',
+                title:'',
                 subtitle:'',
                 points:0,
                 questionType:'ES'
             }
-        }
+        };
+        this.essayService = EssayService.instance;
     }
     componentDidMount(){
         const {navigation} = this.props;
@@ -27,9 +27,11 @@ export default class EssayQuestion extends React.Component{
         const question = navigation.getParam("question");
         this.setState({
             examId: examId,
-            lessonId: lessonId,
-            question:question
+            lessonId: lessonId
         });
+        if(question!=null){
+            this.setState({question:question});
+        }
     }
 
     setTitle(text){
@@ -69,7 +71,9 @@ export default class EssayQuestion extends React.Component{
     submitBtn(){
         this.essayService.createEssayQuestion(this.state.examId, this.state.question)
             .then(function (response) {
-                console.log(response);
+                if(response!=null) {
+                    this.props.navigation.goBack();
+                }
             })
     }
 
@@ -109,6 +113,10 @@ export default class EssayQuestion extends React.Component{
                 <Button
                     title="Submit"
                     onPress={() => this.submitBtn()}
+                />
+                <Button
+                    title="Cancel"
+                    onPress={() => this.props.navigation.goBack()}
                 />
 
             </ScrollView>

@@ -27,16 +27,16 @@ export default class FillInTheBlanksQuestionWidget extends React.Component{
         const examId = navigation.getParam("examId");
         const lessonId = navigation.getParam("lessonId");
         const question = navigation.getParam("question");
-        console.log(question);
-        question.questionTxtArr = question.questionTxtArr.split('|');
-        question.answer = question.answer.split('|');
-        question.variable = question.variable.split('|');
-
         this.setState({
             examId: examId,
-            lessonId: lessonId,
-            question: question
+            lessonId: lessonId
         });
+        if(question!=null){
+            question.questionTxtArr = question.questionTxtArr.split('|');
+            question.answer = question.answer.split('|');
+            question.variable = question.variable.split('|');
+            this.setState({question: question});
+        }
     }
 
 
