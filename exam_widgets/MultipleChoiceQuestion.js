@@ -28,14 +28,11 @@ export default class MultipleChoiceQuestion extends React.Component{
         const examId = navigation.getParam("examId");
         const lessonId = navigation.getParam("lessonId");
         const question = navigation.getParam("question");
-        console.log(examId)
-        console.log(lessonId)
         this.setState({
             examId: examId,
             lessonId: lessonId
         });
         if(question!=null){
-            console.log(question);
             question.options=question.options.split('|');
             this.setState({question:question})
             this.setState({mcqArray:question.options})
@@ -61,7 +58,7 @@ export default class MultipleChoiceQuestion extends React.Component{
         question.options = this.state.mcqArray.join('|');
         this.mcqService.createMCQQuestion(this.state.examId, question)
             .then(function (response) {
-                console.log(response);
+                this.props.navigation.goBack()
             })
     }
     deleteOption(index){
@@ -201,6 +198,10 @@ export default class MultipleChoiceQuestion extends React.Component{
                 <Button
                     title="Submit"
                     onPress={() => this.submitBtn()}
+                />
+                <Button
+                    title="Cancel"
+                    onPress={() => this.props.navigation.goBack()}
                 />
             </ScrollView>
         )
