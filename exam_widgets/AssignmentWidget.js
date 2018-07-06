@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, View, Button} from 'react-native';
 import {Text, FormLabel, FormValidationMessage, FormInput} from 'react-native-elements';
 import AssignmentServices from '../services/AssignmentServices'
+import AssignmentList from "../components/AssignmentList";
 
 let self;
 class AssignmentWidget extends React.Component{
@@ -105,23 +106,24 @@ class AssignmentWidget extends React.Component{
         assignment.widgetType='Assignment';
         return self.assignmentService.findAssignmentById(assignmentId)
             .then(function(response) {
-                if(response!=null){
+                if(response==null){
                     self.createAssgn(lessonId, assignment);
                 }
                 else{
-                    self.updateAssgn(assignmentId, assignment);
+                    self.updateAssgn(lessonId, assignmentId, assignment);
                 }
             })
     }
 
     createAssgn(lessonId, assignment){
         this.assignmentService.createAssignment(lessonId, assignment)
-            .then(this.props.navigation.goBack())
+            .then(self.props.navigation.navigate('AssignmentList'))
     }
 
-    updateAssgn(assignmentId, assignment){
-        this.assignmentService.updateAssignment(assignmentId, assignment)
-            .then(this.props.navigation.goBack())
+    updateAssgn(lessonId, assignmentId, assignment){
+        assignment.id = assignmentId;
+        this.assignmentService.updateAssignment(lessonId, assignment)
+            .then(self.props.navigation.navigate('AssignmentList'))
     }
 
     render(){

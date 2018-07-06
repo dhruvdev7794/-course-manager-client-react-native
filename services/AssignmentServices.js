@@ -23,7 +23,10 @@ class AssignmentServices{
     findAssignmentById(assignmentId){
         return fetch(ASSIGNMENT_API_URL+'/'+assignmentId)
             .then(function(response){
-                return response;
+                if(response.status>400){
+                    return null;
+                }
+                return response.json();
             })
     }
 
@@ -45,19 +48,18 @@ class AssignmentServices{
     }
 
     createAssignment(lessonId, assignment){
-        console.log(assignment);
-        console.log(lessonId);
         return fetch(ASSIGNMENT_LESSON_API_URL.replace("LID", lessonId),{
                 body: JSON.stringify(assignment),
                 headers: {'Content-type': 'application/json'},
-                method: 'PUT'
+                method: 'POST'
             }).then(function (response) {
                 return response.json();
         })
     }
 
-    updateAssignment(assignmentId, assignment){
-        return fetch(ASSIGNMENT_API_URL+'/'+assignmentId,{
+    updateAssignment(lessonId, assignment){
+
+        return fetch(ASSIGNMENT_LESSON_API_URL.replace("LID", lessonId),{
                 body: JSON.stringify(assignment),
                 headers: {'Content-type': 'application/json'},
                 method: 'PUT'

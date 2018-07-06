@@ -1,20 +1,24 @@
 import React from 'react'
-import {Text, Icon, FormLabel, FormInput} from 'react-native-elements'
-import {ScrollView, Button, TextInput, View} from 'react-native'
+import {Text, Icon, FormLabel, FormInput, CheckBox} from 'react-native-elements'
+import {ScrollView, Button, View} from 'react-native'
+import MultipleChoiceQuestionService from "../services/MultipleChoiceQuestionService";
 
 export default class MultipleChoiceQuestion extends React.Component{
     constructor(props){
         super(props);
+        this.mcqService = MultipleChoiceQuestionService.instance
         this.state = {
             lessonId: 1,
             textInput:'',
             mcqArray: [],
             points: 0,
-            exam:{
+            question:{
                 title:'',
                 subtitle:'',
                 points:0,
-                questionType:'mcq'
+                type:'MC',
+                correctOption:'',
+                options:''
             }
         }
     }
@@ -24,11 +28,18 @@ export default class MultipleChoiceQuestion extends React.Component{
         const examId = navigation.getParam("examId");
         const lessonId = navigation.getParam("lessonId");
         const question = navigation.getParam("question");
+        console.log(examId)
+        console.log(lessonId)
         this.setState({
             examId: examId,
-            lessonId: lessonId,
-            question:question
+            lessonId: lessonId
         });
+        if(question!=null){
+            console.log(question);
+            question.options=question.options.split('|');
+            this.setState({question:question})
+            this.setState({mcqArray:question.options})
+        }
     }
 
 
@@ -46,46 +57,72 @@ export default class MultipleChoiceQuestion extends React.Component{
         })
     }
     submitBtn(){
-        console.log("clicked");
+        let question = this.state.question;
+        question.options = this.state.mcqArray.join('|');
+        this.mcqService.createMCQQuestion(this.state.examId, question)
+            .then(function (response) {
+                console.log(response);
+            })
     }
     deleteOption(index){
-
-    }
-    correctOption(index){
-
+        let mcq = this.state.mcqArray;
+        delete mcq[index];
+        this.setState({
+            mcqArray: mcq
+        })
     }
 
     setTitle(text){
         this.setState({
-            exam:{
+            question:{
                 title:text,
-                subtitle: this.state.exam.subtitle,
-                points: this.state.exam.points.toString(),
-                questionType: 'Essay'
+                subtitle: this.state.question.subtitle,
+                points: this.state.question.points.toString(),
+                type: 'MC',
+                correctOption:this.state.question.correctOption,
+                options:this.state.question.options
             }
         })
 
     }
     setDescription(text){
         this.setState({
-            exam:{
-                title:this.state.exam.title,
+            question:{
+                title:this.state.question.title,
                 subtitle: text,
-                points: this.state.exam.points.toString(),
-                questionType: 'Essay'
+                points: this.state.question.points.toString(),
+                type: 'MC',
+                correctOption:this.state.question.correctOption,
+                options:this.state.question.options
             }
         })
 
     }
     setPoints(text){
         this.setState({
-            exam:{
-                title:this.state.exam.title,
-                subtitle: this.state.exam.subtitle,
+            question:{
+                title:this.state.question.title,
+                subtitle: this.state.question.subtitle,
                 points: text.toString(),
-                questionType: 'Essay'
+                type: 'MC',
+                correctOption:this.state.question.correctOption,
+                options:this.state.question.options
             }
         })
+
+    }
+    setCorrectOption(option){
+
+        this.setState({
+            question:{
+                title:this.state.question.title,
+                subtitle: this.state.question.subtitle,
+                points: this.state.question.points.toString(),
+                type: 'MC',
+                correctOption:option,
+                options:this.state.question.options
+            }
+        });
 
     }
 
@@ -98,21 +135,21 @@ export default class MultipleChoiceQuestion extends React.Component{
                     Title
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.title}
+                    value={this.state.question.title}
                     onChangeText={text => this.setTitle(text)}/>
 
                 <FormLabel>
                     Description
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.subtitle}
+                    value={this.state.question.subtitle}
                     onChangeText={text => this.setDescription(text)}/>
 
                 <FormLabel>
                     Points
                 </FormLabel>
                 <FormInput
-                    value={this.state.exam.points.toString()}
+                    value={this.state.question.points.toString()}
                     onChangeText={text => this.setPoints(text)}/>
 
                 <FormLabel>
@@ -124,12 +161,30 @@ export default class MultipleChoiceQuestion extends React.Component{
                 <Button
                     onPress={() => this.addMcqOption()}
                     title="Add Option"/>
+                {this.state.mcqArray.map((option, index) => (
+                    <View
+                        key={index}
+                        style={{
+                            flexDirection: 'row'
+                        }}>
+
+                        <CheckBox title={option}
+                                  checked={this.state.question.correctOption === option}
+                                  onPress={() => this.setCorrectOption(option)}/>
+
+                        <Icon
+                            name="trash"
+                            type="font-awesome"
+                            onPress={() => this.deleteOption(index)}
+                        />
+                    </View>
+                ))}
 
                 <Text h4>Preview</Text>
 
-                <Text>{this.state.exam.title}</Text>
-                <Text>Points: {this.state.exam.points}</Text>
-                <Text>{this.state.exam.subtitle}</Text>
+                <Text>{this.state.question.title}</Text>
+                <Text>Points: {this.state.question.points}</Text>
+                <Text>{this.state.question.subtitle}</Text>
                 {this.state.mcqArray.map((option, index) => (
                     <View
                         key={index}
@@ -137,17 +192,9 @@ export default class MultipleChoiceQuestion extends React.Component{
                             flexDirection: 'row'
                             }}>
 
-                            <Text key={index}>{option}</Text>
-
-                            <Icon
-                                name="trash"
-                                type="font-awesome"
-                                onPress={() => this.deleteOption(index)}
-                            />
-                            <Icon
-                                name="check"
-                                type="font-awesome"
-                                onPress={() => this.correctOption(index)}
+                            <CheckBox
+                                title={option}
+                                checked={this.state.question.correctOption===option}
                             />
                     </View>
                 ))}

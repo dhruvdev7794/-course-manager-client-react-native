@@ -52,7 +52,6 @@ class QuestionList extends React.Component{
                                     navigation: this.props.navigation,
                                     question: question
                                 })
-                                // <TrueOrFalseQuestionWidget examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                             else if(question.type === "MC"){
                                 this.props.navigation.navigate("MultipleChoiceQuestion",{
@@ -61,7 +60,6 @@ class QuestionList extends React.Component{
                                     navigation: this.props.navigation,
                                     question: question
                                 })
-                                // <MultipleChoiceQuestion examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                             else if(question.type === "FB"){
                                 this.props.navigation.navigate("FillInTheBlanksQuestionWidget",{
@@ -70,7 +68,6 @@ class QuestionList extends React.Component{
                                     navigation: this.props.navigation,
                                     question: question
                                 })
-                                // <FillInTheBlanksQuestionWidget examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                             else if(question.type === "ES"){
                                 this.props.navigation.navigate("EssayQuestion",{
@@ -79,11 +76,9 @@ class QuestionList extends React.Component{
                                     navigation: this.props.navigation,
                                     question: question
                                 })
-                                // <EssayQuestion examId={this.state.examId} lessonId={this.state.lessonId} navigation={this.props.navigation}/>
                             }
                         }}/>
                 ))}
-                <Text>{JSON.stringify(this.state.questions)}</Text>
                 <ButtonGroup
                     onPress={select => this.setState({
                         selected: select
