@@ -1,5 +1,5 @@
 let _singleton = Symbol();
-const QUESTION_EXAM_API_URL = 'http://localhost:8080/api/exam/:EID';
+const QUESTION_EXAM_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/:EID';
 
 export default class QuestionServices{
     constructor(singletonToken) {

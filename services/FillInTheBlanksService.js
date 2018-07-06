@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const FILL_IN_BLANKS_API_URL = 'http://localhost:8080/api/blanks';
-const FILL_IN_BLANKS_EXAM_API_URL = 'http://localhost:8080/api/exam/EID/blanks';
+const FILL_IN_BLANKS_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/blanks';
+const FILL_IN_BLANKS_EXAM_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/EID/blanks';
 
 export default class FillInTheBlanksService{
     constructor(singletonToken) {

@@ -9,7 +9,7 @@ class CourseList extends React.Component{
         this.state={
             courses:[]
         };
-        fetch('http://localhost:8080/api/course')
+        fetch('https://dhruv-sharma-course-mgmt.herokuapp.com/api/course')
             .then(response => (response.json()))
             .then(courses => {
                 this.setState({courses:courses})

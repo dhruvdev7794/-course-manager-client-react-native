@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const MCQ_API_URL = 'http://localhost:8080/api/choice';
-const MCQ_EXAM_API_URL = 'http://localhost:8080/api/exam/EID/choice';
+const MCQ_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/choice';
+const MCQ_EXAM_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/EID/choice';
 
 export default class MultipleChoiceQuestionService{
 

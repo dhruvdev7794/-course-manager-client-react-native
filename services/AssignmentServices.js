@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const ASSIGNMENT_API_URL = 'http://localhost:8080/api/assignment';
-const ASSIGNMENT_LESSON_API_URL = 'http://localhost:8080/api/lesson/LID/assignment';
+const ASSIGNMENT_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/assignment';
+const ASSIGNMENT_LESSON_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/lesson/LID/assignment';
 
 class AssignmentServices{
     constructor(singletonToken) {

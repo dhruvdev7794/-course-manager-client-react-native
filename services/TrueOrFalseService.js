@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const TRUE_FALSE_API_URL = 'http://localhost:8080/api/truefalse';
-const TRUE_FALSE_EXAM_API_URL = 'http://localhost:8080/api/exam/EID/truefalse';
+const TRUE_FALSE_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/truefalse';
+const TRUE_FALSE_EXAM_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/EID/truefalse';
 
 export default class TrueOrFalseService{
     constructor(singletonToken) {

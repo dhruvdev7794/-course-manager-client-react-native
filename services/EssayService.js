@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const ESSAY_API_URL = 'http://localhost:8080/api/essay';
-const ESSAY_EXAM_API_URL = 'http://localhost:8080/api/exam/EID/essay';
+const ESSAY_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/essay';
+const ESSAY_EXAM_API_URL = 'https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/EID/essay';
 
 export default class EssayService{
     constructor(singletonToken) {

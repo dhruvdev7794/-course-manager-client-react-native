@@ -19,7 +19,7 @@ class WidgetList extends React.Component{
             this.setState({lessonId});
         }
 
-        fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
+        fetch("https://dhruv-sharma-course-mgmt.herokuapp.com/api/lesson/"+lessonId+"/widget")
             .then(response => (response.json()))
             .then(widgets => this.setState({widgets}))
     }

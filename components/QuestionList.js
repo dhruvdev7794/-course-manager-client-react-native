@@ -28,8 +28,8 @@ class QuestionList extends React.Component{
             examId: examId,
             lessonId: lessonId
         });
-        console.log("http://localhost:8080/api/exam/"+examId+"/question");
-        fetch("http://localhost:8080/api/exam/"+examId+"/question")
+        console.log("https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/"+examId+"/question");
+        fetch("https://dhruv-sharma-course-mgmt.herokuapp.com/api/exam/"+examId+"/question")
             .then(response => (response.json()))
             .then(questions => this.setState({questions: questions}));
     }
